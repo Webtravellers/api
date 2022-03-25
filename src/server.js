@@ -8,5 +8,5 @@ const app = express()
 app.use("/", router)
 
 app.listen(PORT, () => {
-  console.log("server started ")
+  console.log("server started hahahha")
 })
