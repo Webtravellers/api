@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
+import baseModel from "./base.model.js";
 
 const userSchema = new mongoose.Schema({
     fistname: {
@@ -18,7 +19,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         require: true
-    }
+    },
+    ...baseModel
 })
 
 userSchema.pre("save", async function(next) {
