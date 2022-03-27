@@ -1,6 +1,6 @@
 import express from 'express'
 import router from "./router/router.js"
-
+import './db.js'
 const PORT = 5000
 
 const app = express()
