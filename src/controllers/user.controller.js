@@ -14,8 +14,13 @@ const addUser = async (req, res, next) => {
 }
 
 const getUsers = async (req, res, next) => {
-    const users = await UserModel.find()
-    res.json(users)
+    try {
+        const users = await UserModel.find()
+        Result.success(res, "Kullanıcılar listelendi", users)
+    } catch(err) {
+        Result.error(res, "Hata oluştu")
+    }
+    
 }
 
 export {
