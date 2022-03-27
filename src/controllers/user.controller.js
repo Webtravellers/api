@@ -1,18 +1,16 @@
 import UserModel from "../models/user.model.js";
+import Result from "../utils/Result.js";
 
 const addUser = async (req, res, next) => {
     const user = req.body
-    console.log(user)
     try {
         await new UserModel(user).save()
-        res.json("Kaydedildi")
+        Result.success(res, "Kaydedildi")
     } catch(err) {
-        console.log(err)
         res.status(400).json({
             error: err
         })
     }
-    
 }
 
 const getUsers = async (req, res, next) => {
