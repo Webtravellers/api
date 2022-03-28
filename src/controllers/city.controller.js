@@ -13,7 +13,7 @@ const addCity = async (req, res, next) => {
 
 const getCities = async (req, res, next) => {
     const cities = await CityModel.find()
-    Result.success(res, "Lokasyonlar listelendi", cities)
+    Result.success(res, "Şehirler listelendi", cities)
 }
 
 export {
