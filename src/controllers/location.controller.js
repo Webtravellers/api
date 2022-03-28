@@ -1,4 +1,5 @@
 import LocationModel from "../models/location.model.js";
+import Result from "../utils/Result.js"
 
 const addLocation = async (req, res, next) => {
     const loc = req.body
