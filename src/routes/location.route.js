@@ -3,8 +3,8 @@ import { addLocation, getLocations } from "../controllers/location.controller.js
 
 const locationRouter = new express.Router()
 
-locRouter.get("/", getLocations)
-locRouter.post("/", addLocation)
+locationRouter.get("/", getLocations)
+locationRouter.post("/", addLocation)
 
 
 export default locationRouter
