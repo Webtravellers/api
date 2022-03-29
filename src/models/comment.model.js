@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-
+import baseModel from "./base.model.js"
 const commentSchema = new mongoose.Schema({
     userId: {
         type: Number,
@@ -12,7 +12,8 @@ const commentSchema = new mongoose.Schema({
     locationId: {
         type: Number,
         require: true
-    }
+    },
+    ...baseModel
 })
 
 const CommentModel = mongoose.model("comments", commentSchema)

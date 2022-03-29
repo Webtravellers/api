@@ -1,4 +1,6 @@
 import mongoose from "mongoose"
+import baseModel from "./base.model.js"
+
 
 const locationSchema = new mongoose.Schema({
     name: {
@@ -31,7 +33,8 @@ const locationSchema = new mongoose.Schema({
             type: [Number],
             require: true
         }
-    }
+    },
+    ...baseModel
 })
 
 const LocationModel = mongoose.model("locations", locationSchema)
