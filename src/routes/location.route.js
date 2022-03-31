@@ -6,6 +6,6 @@ const locationRouter = new express.Router()
 locationRouter.get("/", getLocations)
 locationRouter.post("/", addLocation)
 locationRouter.get("/:id", getLocationById)
-locationRouter.delete("/delete/:id", deleteLocation)
+locationRouter.delete("/:id", deleteLocation)
 
 export default locationRouter
