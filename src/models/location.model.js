@@ -12,7 +12,12 @@ const locationSchema = new mongoose.Schema({
     },
     city: {
         //the city that location is in
+<<<<<<< Updated upstream
         type: String,
+=======
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "cities",
+>>>>>>> Stashed changes
         require: true
     },
     type: {
