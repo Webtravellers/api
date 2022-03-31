@@ -1,7 +1,8 @@
 import mongoose from "mongoose"
+import baseModel from "./base.model.js"
 
 const commentSchema = new mongoose.Schema({
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
         require: true
@@ -10,11 +11,12 @@ const commentSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    location: {
+    locationId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "locations",
         require: true
-    }
+    },
+    ...baseModel
 })
 
 const CommentModel = mongoose.model("comments", commentSchema)

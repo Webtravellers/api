@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import baseModel from "./base.model.js"
 
 const photoTypeSchema = new mongoose.Schema({
     // We have 3 photo types which are User, Comment and Location
@@ -7,7 +8,8 @@ const photoTypeSchema = new mongoose.Schema({
         type: String,
         enum: ["User", "Comment", "Location"],
         require: true
-    }
+    },
+    ...baseModel
 }
 )
 
