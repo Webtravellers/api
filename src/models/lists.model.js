@@ -3,7 +3,8 @@ import baseModel from "./base.model.js";
 
 const listSchema = new mongoose.Schema({
     userId: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
         require: true,
         unique: false
     },
@@ -13,7 +14,8 @@ const listSchema = new mongoose.Schema({
         unique: false
     },
     locations: {
-        type: [Number],
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "locations",
         require: true
     },
     isFavorite: {
