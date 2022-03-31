@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import baseModel from "./base.model.js"
 
 const commentSchema = new mongoose.Schema({
     user: {
@@ -14,7 +15,8 @@ const commentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "locations",
         require: true
-    }
+    },
+    ...baseModel
 })
 
 const CommentModel = mongoose.model("comments", commentSchema)
