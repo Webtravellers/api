@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
 import baseModel from "./base.model.js"
 
-
 const locationSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -14,12 +13,14 @@ const locationSchema = new mongoose.Schema({
     },
     city: {
         //the city that location is in
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "cities"
         require: true
     },
     type: {
         //type of the location.Historical places, natural beauties, restaurants,museums ...
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "location-types",
         require: true
     },
     location: {//Structure to save location coordinates as geoJSON

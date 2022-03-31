@@ -1,16 +1,19 @@
 import mongoose from "mongoose"
 import baseModel from "./base.model.js"
+
 const commentSchema = new mongoose.Schema({
-    userId: {
-        type: Number,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
         require: true
     },
     comment: {
         type: String,
         require: true
     },
-    locationId: {
-        type: Number,
+    location: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "locations",
         require: true
     },
     ...baseModel
