@@ -1,4 +1,4 @@
-import photoModel from "../models/photos.model.js"
+import photoModel from "../models/photo.model.js"
 import Result from "../utils/Result.js"
 
 const addPhoto = async (req, res, next) => {
