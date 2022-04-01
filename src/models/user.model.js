@@ -20,10 +20,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    following: [{ time: Date, user: mongoose.Schema.Types.ObjectId }],
+    followers: [{ time: Date, user: mongoose.Schema.Types.ObjectId }],
     ...baseModel
 })
 
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSalt(10, "a")
     this.password = await bcrypt.hash(this.password, salt)
     next()

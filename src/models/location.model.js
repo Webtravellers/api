@@ -14,7 +14,7 @@ const locationSchema = new mongoose.Schema({
     city: {
         //the city that location is in
         type: mongoose.Schema.Types.ObjectId,
-        ref: "cities"
+        ref: "cities",
         require: true
     },
     type: {
