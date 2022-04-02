@@ -20,8 +20,30 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    following: [{ time: Date, user: mongoose.Schema.Types.ObjectId }],
-    followers: [{ time: Date, user: mongoose.Schema.Types.ObjectId }],
+    following: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "users"
+            },
+            time: {
+                type: Date,
+                default: Date.now()
+            }
+        }
+    ],
+    followers: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "users"
+            },
+            time: {
+                type: Date,
+                default: Date.now()
+            }
+        }
+    ],
     ...baseModel
 })
 
