@@ -14,12 +14,12 @@ const locationSchema = new mongoose.Schema({
     city: {
         //the city that location is in
         type: mongoose.Schema.Types.ObjectId,
-        ref: "cities"
+        ref: "cities",
         require: true
     },
     type: {
         //type of the location.Historical places, natural beauties, restaurants,museums ...
-        type: mongoose.Schema.Types.ObjectId,
+        type: [mongoose.Schema.Types.ObjectId],
         ref: "location-types",
         require: true
     },
