@@ -17,12 +17,13 @@ const locationSchema = new mongoose.Schema({
         ref: "cities",
         require: true
     },
-    type: {
-        //type of the location.Historical places, natural beauties, restaurants,museums ...
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "location-types",
-        require: true
-    },
+    type: [
+        {
+            //type of the location.Historical places, natural beauties, restaurants,museums ...
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "location-types",
+        }
+    ],
     location: {//Structure to save location coordinates as geoJSON
         type: {
             type: String,
