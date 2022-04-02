@@ -6,19 +6,8 @@ const addToList = async (req, res, next) => {
     const data = req.body;
 
     try {
-        const isFavoriteOccupied = await ListModel.findOne({ userId: data.userId, isFavorite: true })
-        if ((data.isFavorite) == 'false') {
-            await new ListModel(data).save()
-            Result.success(res, "Kaydedildi")
-        }
-        else if (!isFavoriteOccupied) {
-            await new ListModel(data).save()
-            Result.success(res, "Kaydedildi")
-        }
-        else {
-            Result.error(res, "Zaten favori listesi var")
-        }
-
+        await new ListModel(data).save()
+        Result.success(res, "Kaydedildi")
     }
     catch (err) {
         console.log(err);

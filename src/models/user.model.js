@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    favoritesList: [{ time: Date, location: mongoose.Schema.Types.ObjectId }],
     following: [
         {
             user: {

@@ -18,11 +18,6 @@ const listSchema = new mongoose.Schema({
         ref: "locations",
         require: true
     },
-    isFavorite: {
-        type: Boolean,
-        require: true,
-        unique: false
-    },
     ...baseModel
 
 })
