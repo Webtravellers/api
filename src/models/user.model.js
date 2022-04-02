@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
 import baseModel from "./base.model.js";
 
+
 const userSchema = new mongoose.Schema({
     fistname: {
         type: String,
@@ -58,6 +59,17 @@ const userSchema = new mongoose.Schema({
     ],
     ...baseModel
 })
+
+userSchema.statics.login = async function (email, password) {
+    const user = await this.findOne({ email })
+    if (!user) throw Error("Hatalı eposta adresi")
+
+    const auth = await bcrypt.compare(password, user.password)
+    if (!auth) throw Error("Şifre hatalı")
+
+    user.password = null
+    return user
+}
 
 userSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSalt(10, "a")

@@ -6,16 +6,18 @@ const addUser = async (req, res, next) => {
     try {
         await new UserModel(user).save()
         Result.success(res, "Kaydedildi")
-    } catch(err) {
+    } catch (err) {
         next(err)
     }
 }
+
+
 
 const getUsers = async (req, res, next) => {
     try {
         const users = await UserModel.find()
         Result.success(res, "Kullanıcılar listelendi", users)
-    } catch(err) {
+    } catch (err) {
         next(err)
     }
 }
