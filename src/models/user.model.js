@@ -20,7 +20,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    favoritesList: [{ time: Date, location: mongoose.Schema.Types.ObjectId }],
+    favoritesList: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "locations"
+            },
+            time: {
+                type: Date,
+                default: Date.now()
+            }
+        }
+    ],
     following: [
         {
             user: {
