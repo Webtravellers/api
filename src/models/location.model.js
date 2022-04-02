@@ -35,6 +35,9 @@ const locationSchema = new mongoose.Schema({
             require: true
         }
     },
+    photos: {
+        type: String
+    },
     ...baseModel
 })
 
