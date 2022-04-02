@@ -20,12 +20,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-<<<<<<< Updated upstream
-=======
     following: [{ time: Date, user: mongoose.Schema.Types.ObjectId }],
     followers: [{ time: Date, user: mongoose.Schema.Types.ObjectId }],
     favoritesList: [{ time: Date, location: mongoose.Schema.Types.ObjectId }],
->>>>>>> Stashed changes
     ...baseModel
 })
 

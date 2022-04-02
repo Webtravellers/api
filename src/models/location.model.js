@@ -14,7 +14,7 @@ const locationSchema = new mongoose.Schema({
     city: {
         //the city that location is in
         type: mongoose.Schema.Types.ObjectId,
-        ref: "cities"
+        ref: "cities",
         require: true
     },
     type: {
@@ -24,7 +24,6 @@ const locationSchema = new mongoose.Schema({
         require: true
     },
     location: {//Structure to save location coordinates as geoJSON
-        type: Object,
         type: {
             type: String,
             enum: ['Point'],//Point schema
