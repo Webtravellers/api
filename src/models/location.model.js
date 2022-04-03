@@ -35,9 +35,11 @@ const locationSchema = new mongoose.Schema({
             require: true
         }
     },
-    photos: {
-        type: String
-    },
+    photos: [
+        {
+            type: String, //Photo url. Sample: https://statics.webtravellers.com/photos/locations/locationA1.jpg
+        }
+    ],
     ...baseModel
 })
 
