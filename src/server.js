@@ -16,8 +16,8 @@ app.use("/", router)
 //Error handling
 app.use((err, req, res, next) => {
   res.status(err.status || 400).json({
-      status: false,
-      message: "Hata oluştu"
+    status: false,
+    message: "Hata oluştu"
   })
 });
 

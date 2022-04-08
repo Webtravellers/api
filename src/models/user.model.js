@@ -4,7 +4,7 @@ import baseModel from "./base.model.js";
 
 
 const userSchema = new mongoose.Schema({
-    fistname: {
+    firstname: {
         type: String,
         require: true,
     },
@@ -57,6 +57,10 @@ const userSchema = new mongoose.Schema({
             }
         }
     ],
+    resetToken: {
+        data: String,
+        default: ''
+    },
     ...baseModel
 })
 
