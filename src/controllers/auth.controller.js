@@ -4,7 +4,7 @@ import Result from "../utils/Result.js";
 import jwt from "jsonwebtoken"
 import sendMail from "../utils/SendMail.js";
 import validator from "validator"
-
+import { v4 as uuidv4 } from 'uuid';
 
 const createToken = (id) => {
     return jwt.sign({ id }, 'SuperPassword', {
@@ -61,7 +61,7 @@ const sendResetLink = async (req, res, next) => {
         if (!user) {
             Result.error(res, "Kullanıcı bulunamadı", 404)
         }
-        const token = createToken(user._id)
+        const token = uuidv4()+'-'+user._id;
         const link = `${req.protocol}://${req.get("host")}/users/reset_password/${token}`
         await UserModel.findOneAndUpdate({ email: email }, { resetToken: token })
         await sendMail(
@@ -76,8 +76,6 @@ const sendResetLink = async (req, res, next) => {
 
         )
 
-
-
         Result.success(res, 'Şifre sıfırlama linki e-postana göderildi')
     } catch (error) {
         return new Error(error)
@@ -88,9 +86,15 @@ const resetPassword = async (req, res, next) => {
     const user = await UserModel.findOne({ resetToken: req.params.token })
     if (!user) {
         Result.error(res, "Kullanıcı bulunamadı", 404)
+        return
     }
 
-    user.password = req.body.password;
+    const {newPassword, newPasswordRepeat} = req.body
+    if(newPassword !== newPasswordRepeat) {
+        Result.error(res, "Şifreler uyuşmuyor.", 400)
+        return
+    }
+    user.password = newPassword;
     user.resetToken = '';
     await user.save();
     Result.success(res, "Şifre başarıyla değiştirildi")
