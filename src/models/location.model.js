@@ -40,32 +40,28 @@ const locationSchema = new mongoose.Schema({
             type: String, //Photo url. Sample: https://statics.webtravellers.com/photos/locations/locationA1.jpg
         }
     ],
-    //1
-    
-
-    //2
+    comments: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "users",
+                required: true,
+            },
+            score: {
+                type: Number,
+                required: true,
+            },
+            comment: {
+                type: String,
+            },
+            date: {
+                type: Date,
+                default: Date.now()
+            }
+        }
+    ],
     ...baseModel
 })
-
-const rating =new mongoose.Schema({
-    user:{
-        type:String,
-        require: true
-    },
-    score:{
-        type:Number,
-    },
-    comment:{
-        type:String
-    },
-    commentDate:{
-        type : Date//, default : Date.now
-    },
-    ...baseModel
-})
-
-const ratingSystem = mongoose.model("rating",rating);
-
 const LocationModel = mongoose.model("locations", locationSchema)
 
 export default LocationModel
