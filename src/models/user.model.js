@@ -4,7 +4,7 @@ import baseModel from "./base.model.js";
 
 
 const userSchema = new mongoose.Schema({
-    firstname: {
+    name: {
         type: String,
         require: true,
     },
