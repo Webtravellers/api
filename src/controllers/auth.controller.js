@@ -34,21 +34,24 @@ const signIn = async (req, res, next) => {
 
 const signUp = async (req, res, next) => {
     const data = req.body
-
-    const user = new UserModel(data)
-    user.save()
-        .then(() => {
-            Result.success(res, 'Kayıt başarılı')
-        })
-        .catch(err => {
-            let errMsg = "Bilinmeyen bir hata oluştu"
-
-            if (MongoError.unique(err, "email")) {
-                errMsg = "Eposta adresi zaten kullanımda"
-            }
-            Result.error(res, errMsg)
-        })
-
+    console.log(data)
+    try {
+        const user = new UserModel(data)
+        user.save()
+            .then(() => {
+                Result.success(res, 'Kayıt başarılı')
+            })
+            .catch(err => {
+                let errMsg = "Bilinmeyen bir hata oluştu"
+    
+                if (MongoError.unique(err, "email")) {
+                    errMsg = "Eposta adresi zaten kullanımda"
+                }
+                Result.error(res, errMsg)
+            })
+    } catch(err) {
+        Result.error(err)
+    }
 }
 
 const sendResetLink = async (req, res, next) => {
