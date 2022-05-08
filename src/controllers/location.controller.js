@@ -59,10 +59,28 @@ const deleteLocation = async (req, res, next) => {
     }
 }
 
+const filterLocation = async (req, res, next) => {
+    const filter = req.body
+    try {
+        let locations = await LocationModel.find().populate("city type")
+        if(filter.city) {
+            locations = locations.filter(loc => loc.city._id == filter.city)
+        }
+        if(filter.type) {
+            locations = locations.filter(loc => loc.type.some(x => x._id == filter.type))
+        }
+        Result.success(res, "Lokasyonlar listelendi", locations)
+    }
+    catch (err) {
+        next(err)    
+    }
+}
+
 export {
     addLocation,
     getLocations,
     getLocationById,
     deleteLocation,
-    updateLocation
+    updateLocation,
+    filterLocation
 }
