@@ -16,11 +16,11 @@ const addLocation = async (req, res, next) => {
 const updateLocation = async (req, res, next) => {
     const loc = req.body
     try {
-        const currentLoc = await LocationModel.findOne({_id: loc._id})
-        if(!currentLoc) {
+        const currentLoc = await LocationModel.findOne({ _id: loc._id })
+        if (!currentLoc) {
             Result.error(res, "Location not found")
         } else {
-            LocationModel.updateOne({_id: loc._id}, {...loc}, {upsert: true}, (err) => {})
+            LocationModel.updateOne({ _id: loc._id }, { ...loc }, { upsert: true }, (err) => { })
             Result.success(res, "Updated location")
         }
     } catch (err) {
@@ -52,7 +52,7 @@ const deleteLocation = async (req, res, next) => {
     const update = { status: false }
     try {
         await LocationModel.findOneAndUpdate(filter, update)
-        Result.success(res, "Lokasyon silindi (Şaka  şaka status false'a değişti (: )")
+        Result.success(res, "Lokasyon silindi ")
     }
     catch (err) {
         Result.error(res, "Geçersiz Lokasyon id", 404)
@@ -63,16 +63,16 @@ const filterLocation = async (req, res, next) => {
     const filter = req.body
     try {
         let locations = await LocationModel.find().populate("city type")
-        if(filter.city) {
+        if (filter.city) {
             locations = locations.filter(loc => loc.city._id == filter.city)
         }
-        if(filter.type) {
+        if (filter.type) {
             locations = locations.filter(loc => loc.type.some(x => x._id == filter.type))
         }
         Result.success(res, "Lokasyonlar listelendi", locations)
     }
     catch (err) {
-        next(err)    
+        next(err)
     }
 }
 
