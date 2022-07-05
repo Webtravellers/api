@@ -8,8 +8,9 @@ const postSchema = new mongoose.Schema({
             required: true,
         }
     ],
-    desc: {
+    caption: {
         type: String,
+        trim: true
     },
     likes_count: {
         type: Number,
@@ -26,7 +27,7 @@ const postSchema = new mongoose.Schema({
             }
         }
     ],
-    user: {
+    postedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
         required: true,
@@ -40,6 +41,8 @@ const postSchema = new mongoose.Schema({
             },
             comment: {
                 type: String,
+                required: true,
+                trim: true
             },
             date: {
                 type: Date,
