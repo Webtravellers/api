@@ -1,12 +1,17 @@
 import PostModel from "../models/post.model.js"
+import UserModel from "../models/user.model.js"
 import MongoError from "../utils/MongoError.js"
 import Result from "../utils/Result.js"
 
 
 const addPost = async (req, res, next) => {
-    const post = req.body
+    const postData = req.body
+    const userId = req.params.id
     try {
-        await new PostModel(post).save()
+        const post = await new PostModel(postData).save()
+        const user = await UserModel.findById(String(userId))
+        user.posts.push(post._id)
+        await user.save()
         Result.success(res, "Kaydedildi")
     } catch (err) {
         console.log(err)

@@ -3,7 +3,7 @@ import { addPost, getPostsByUser } from "../controllers/posts.controller.js"
 
 const postRouter = new express.Router()
 
-postRouter.post('/', addPost)
+postRouter.post('/:id', addPost)
 postRouter.get('/:id', getPostsByUser)
 
 
