@@ -2,12 +2,10 @@ import mongoose from "mongoose"
 import baseModel from "./base.model.js"
 
 const postSchema = new mongoose.Schema({
-    photos: [
-        {
-            type: String, //Photo url. Sample: https://statics.webtravellers.com/photos/locations/locationA1.jpg,
-            required: true,
-        }
-    ],
+    photo: {
+        type: String, //Photo url. Sample: https://statics.webtravellers.com/photos/locations/locationA1.jpg,
+        required: true,
+    },
     caption: {
         type: String,
         trim: true
@@ -19,8 +17,10 @@ const postSchema = new mongoose.Schema({
     },
     likes: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "users",
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "users",
+            },
             date: {
                 type: Date,
                 default: Date.now()

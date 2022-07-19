@@ -1,12 +1,18 @@
 import PostModel from "../models/post.model.js"
 import UserModel from "../models/user.model.js"
+import { imageUpload } from "../utils/imageUploader.js"
 import MongoError from "../utils/MongoError.js"
 import Result from "../utils/Result.js"
 
 
 const addPost = async (req, res, next) => {
-    const postData = req.body
     const userId = req.params.id
+    const fileRes = await imageUpload(req.files.photo.tempFilePath);
+    const postData = {
+        caption: req.body.caption,
+        postedBy: userId,
+        photo: fileRes.url
+    }
     try {
         const post = await new PostModel(postData).save()
         const user = await UserModel.findById(String(userId))
@@ -22,7 +28,7 @@ const addPost = async (req, res, next) => {
 const getPostsByUser = async (req, res, next) => {
     const userId = req.params.id
     try {
-        const postsOfuser = await PostModel.find({ user: String(userId) })
+        const postsOfuser = await PostModel.find({ postedBy: String(userId) })
         Result.success(res, `${userId} id'li kullanıcının gönderileri`, postsOfuser)
 
     } catch (error) {
