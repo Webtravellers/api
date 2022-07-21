@@ -4,9 +4,13 @@ import baseModel from "./base.model.js";
 
 
 const userSchema = new mongoose.Schema({
-    fullname: {
+    name: {
         type: String,
         require: true,
+    },
+    lastname: {
+        type: String,
+        require: true
     },
     email: {
         type: String,
