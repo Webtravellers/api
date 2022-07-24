@@ -86,7 +86,6 @@ const newCommentAtLocation = async (req, res, next) => {
     }
     try {
         const location = await LocationModel.findById(String(locationId))
-        console.log(location)
         if(!location) {
             Result.error(res, "location.notFound")
         } else {
