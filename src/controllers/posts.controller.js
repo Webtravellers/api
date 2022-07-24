@@ -38,7 +38,26 @@ const getPostsByUser = async (req, res, next) => {
 
 }
 
+const newCommentAtPost = async (req, res, next) => {
+    const postId = req.params.id
+    const commentData = {
+        comment: req.body.comment,
+        user: req.body.user,
+        date: new Date()
+    }
+    try {
+        const post = await PostModel.findById(String(postId))
+        post.comments.push(commentData)
+        await post.save()
+        Result.success(res, "comment.save")
+    } catch (err) {
+        console.log(err)
+        next(err)
+    }
+}
+
 export {
     addPost,
-    getPostsByUser
+    getPostsByUser,
+    newCommentAtPost
 }

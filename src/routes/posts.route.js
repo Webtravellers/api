@@ -1,10 +1,11 @@
 import express from "express"
-import { addPost, getPostsByUser } from "../controllers/posts.controller.js"
+import { addPost, getPostsByUser, newCommentAtPost } from "../controllers/posts.controller.js"
 
 const postRouter = new express.Router()
 
-postRouter.post('/:id', addPost)
-postRouter.get('/:id', getPostsByUser)
+postRouter.post("/", addPost)
+postRouter.get('/getbyuser', getPostsByUser)
 
+postRouter.post("/:id/comments", newCommentAtPost)
 
 export default postRouter
