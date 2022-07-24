@@ -6,10 +6,6 @@ const userRouter = new express.Router()
 
 userRouter.get("/", getUsers)
 userRouter.post("/", addUser)
-userRouter.post("/signup", signUp)
-userRouter.post("/signin", signIn)
-userRouter.post('/forgot_password', sendResetLink)
-userRouter.post('/reset_password/:token', resetPassword)
 userRouter.get('/:id', getUserById)
 
 

@@ -5,17 +5,16 @@ import jwt from "jsonwebtoken"
 import sendMail from "../utils/SendMail.js";
 import validator from "validator"
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt'
 
 const createToken = (id) => {
-    return jwt.sign({ id }, 'SuperPassword', {
+    return jwt.sign({ id }, process.env.JWT_SECRET_KEY, {
         expiresIn: '3h'
     })
 }
 
-
 const signIn = async (req, res, next) => {
     const data = req.body
-
     try {
         const user = await UserModel.login(data.email, data.password)
         const token = createToken(user._id)
@@ -37,20 +36,24 @@ const signUp = async (req, res, next) => {
     console.log(data)
     try {
         const user = new UserModel(data)
+
+        const salt = await bcrypt.genSalt(10, "a")
+        user.password = await bcrypt.hash(data.password, salt)
         user.save()
             .then(() => {
                 Result.success(res, 'Kayıt başarılı')
             })
             .catch(err => {
                 let errMsg = "Bilinmeyen bir hata oluştu"
-    
+
                 if (MongoError.unique(err, "email")) {
                     errMsg = "Eposta adresi zaten kullanımda"
                 }
                 Result.error(res, errMsg)
             })
-    } catch(err) {
-        Result.error(err)
+    } catch (err) {
+        console.log(err)
+        Result.error(res, err)
     }
 }
 
@@ -64,7 +67,7 @@ const sendResetLink = async (req, res, next) => {
         if (!user) {
             Result.error(res, "Kullanıcı bulunamadı", 404)
         }
-        const token = uuidv4()+'-'+user._id;
+        const token = uuidv4() + '-' + user._id;
         const link = `${req.protocol}://${req.get("host")}/users/reset_password/${token}`
         await UserModel.findOneAndUpdate({ email: email }, { resetToken: token })
         await sendMail(
@@ -92,8 +95,8 @@ const resetPassword = async (req, res, next) => {
         return
     }
 
-    const {newPassword, newPasswordRepeat} = req.body
-    if(newPassword !== newPasswordRepeat) {
+    const { newPassword, newPasswordRepeat } = req.body
+    if (newPassword !== newPasswordRepeat) {
         Result.error(res, "Şifreler uyuşmuyor.", 400)
         return
     }

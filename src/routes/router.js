@@ -5,6 +5,7 @@ import listsRouter from "./lists.route.js";
 import cityRouter from "./city.route.js";
 import locationTypeRouter from "./location-types.route.js";
 import postRouter from "./posts.route.js";
+import authRouter from "./auth.route.js";
 
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.use("/lists", listsRouter)
 router.use("/cities", cityRouter)
 router.use("/location-types", locationTypeRouter)
 router.use("/posts", postRouter)
+router.use("/auth", authRouter)
 
 export default router;
