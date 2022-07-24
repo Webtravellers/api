@@ -8,6 +8,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    username: {
+        type: String,
+        require: true,
+        unique: true,
+    },
     lastname: {
         type: String,
         require: true
@@ -90,11 +95,11 @@ userSchema.statics.login = async function (email, password) {
     return user
 }
 
-userSchema.pre("save", async function (next) {
-    const salt = await bcrypt.genSalt(10, "a")
-    this.password = await bcrypt.hash(this.password, salt)
-    next()
-})
+// userSchema.pre("save", async function (next) {
+//     const salt = await bcrypt.genSalt(10, "a")
+//     this.password = await bcrypt.hash(this.password, salt)
+//     next()
+// })
 
 const UserModel = mongoose.model("users", userSchema)
 

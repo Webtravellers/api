@@ -18,7 +18,7 @@ const addPost = async (req, res, next) => {
         const user = await UserModel.findById(String(userId))
         user.posts.push(post._id)
         await user.save()
-        Result.success(res, "Kaydedildi")
+        Result.success(res, "save")
     } catch (err) {
         console.log(err)
         next(err)
@@ -29,6 +29,7 @@ const getPostsByUser = async (req, res, next) => {
     const userId = req.params.id
     try {
         const postsOfuser = await PostModel.find({ postedBy: String(userId) })
+        // res.json(postsOfuser)
         Result.success(res, `${userId} id'li kullanıcının gönderileri`, postsOfuser)
 
     } catch (error) {
