@@ -29,8 +29,8 @@ const getPostsByUser = async (req, res, next) => {
     const userId = req.params.id
     try {
         const postsOfuser = await PostModel.find({ postedBy: String(userId) })
-        res.json(postsOfuser)
-        // Result.success(res, `${userId} id'li kullanıcının gönderileri`, postsOfuser)
+        // res.json(postsOfuser)
+        Result.success(res, `${userId} id'li kullanıcının gönderileri`, postsOfuser)
 
     } catch (error) {
         Result.error(res, `${error}`, 404)
