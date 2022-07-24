@@ -76,11 +76,35 @@ const filterLocation = async (req, res, next) => {
     }
 }
 
+const newCommentAtLocation = async (req, res, next) => {
+    const locationId = req.params.id
+    const commentData = {
+        comment: req.body.comment,
+        user: req.body.user,
+        score: parseInt(req.body.score ?? 0),
+        date: new Date()
+    }
+    try {
+        const location = await LocationModel.findById(String(locationId))
+        console.log(location)
+        if(!location) {
+            Result.error(res, "location.notFound")
+        } else {
+            location.comments.push(commentData)
+            await location.save()
+            Result.success(res, "comment.save")
+        }
+    } catch (err) {
+        next(err)
+    }
+}
+
 export {
     addLocation,
     getLocations,
     getLocationById,
     deleteLocation,
     updateLocation,
-    filterLocation
+    filterLocation,
+    newCommentAtLocation
 }
