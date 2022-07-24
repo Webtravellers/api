@@ -98,6 +98,20 @@ const newCommentAtLocation = async (req, res, next) => {
     }
 }
 
+const getLocationComments = async (req, res, next) => {
+    const locationId = req.params.id
+    try {
+        const location = await LocationModel.findById(String(locationId)).populate("comments.user")
+        if(!location) {
+            Result.error(res, "location.notFound")
+        } else {
+            Result.success(res, "comment.get", location.comments)
+        }
+    } catch (err) {
+        next(err)
+    }
+}
+
 export {
     addLocation,
     getLocations,
@@ -105,5 +119,6 @@ export {
     deleteLocation,
     updateLocation,
     filterLocation,
-    newCommentAtLocation
+    newCommentAtLocation,
+    getLocationComments
 }
