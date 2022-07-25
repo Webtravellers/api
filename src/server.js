@@ -4,10 +4,9 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import './db.js'
 import fileUpload from 'express-fileupload'
-import { AuthenticationMiddleware } from './middleware/authenticationMiddleware.js'
-import("dotenv").then(x => x.config())
-const PORT = 5000
-
+import dotenv from 'dotenv'
+dotenv.config()
+const PORT = process.env.PORT || 5000
 
 const app = express()
 
@@ -17,7 +16,7 @@ app.use(cors())
 app.use(fileUpload({
   useTempFiles: true
 }))
-// app.use(AuthenticationMiddleware)
+
 app.use("/", router)
 
 //Error handling

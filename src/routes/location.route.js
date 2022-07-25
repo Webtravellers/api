@@ -1,5 +1,5 @@
 import express from "express";
-import { addLocation, getLocations, getLocationById, deleteLocation, updateLocation, filterLocation } from "../controllers/location.controller.js";
+import { addLocation, getLocations, getLocationById, deleteLocation, updateLocation, filterLocation, newCommentAtLocation, getLocationComments } from "../controllers/location.controller.js";
 
 const locationRouter = new express.Router()
 
@@ -11,5 +11,8 @@ locationRouter.post("/filter", filterLocation)
 locationRouter.get("/:id", getLocationById)
 locationRouter.delete("/:id", deleteLocation)
 locationRouter.put("/:id", updateLocation)
+
+locationRouter.get("/:id/comments", getLocationComments)
+locationRouter.post("/:id/comments", newCommentAtLocation)
 
 export default locationRouter
