@@ -3,7 +3,7 @@ import { addPost, getPostsByUser, newCommentAtPost } from "../controllers/posts.
 
 const postRouter = new express.Router()
 
-postRouter.post("/", addPost)
+postRouter.post("/:id", addPost)
 postRouter.get('/getbyuser/:id', getPostsByUser)
 
 postRouter.post("/:id/comments", newCommentAtPost)
