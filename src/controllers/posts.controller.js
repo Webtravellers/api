@@ -56,8 +56,20 @@ const newCommentAtPost = async (req, res, next) => {
     }
 }
 
+const getPostById = async (req, res, next) => {
+    const postId = req.params.postID
+    try {
+        const post = await PostModel.findById(String(postId))
+        Result.success(res, `Post wiht id ${postId}`, post)
+    } catch (error) {
+        Result.error(res, `No post by given id ${postId}`, 404)
+    }
+
+}
+
 export {
     addPost,
     getPostsByUser,
-    newCommentAtPost
+    newCommentAtPost,
+    getPostById
 }
