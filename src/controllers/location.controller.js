@@ -1,4 +1,5 @@
 import LocationModel from "../models/location.model.js";
+import UserModel from "../models/user.model.js";
 import Result from "../utils/Result.js"
 
 
@@ -86,7 +87,7 @@ const newCommentAtLocation = async (req, res, next) => {
     }
     try {
         const location = await LocationModel.findById(String(locationId))
-        if(!location) {
+        if (!location) {
             Result.error(res, "location.notFound")
         } else {
             location.comments.push(commentData)
@@ -102,12 +103,26 @@ const getLocationComments = async (req, res, next) => {
     const locationId = req.params.id
     try {
         const location = await LocationModel.findById(String(locationId)).populate("comments.user")
-        if(!location) {
+        if (!location) {
             Result.error(res, "location.notFound")
         } else {
             Result.success(res, "comment.get", location.comments)
         }
     } catch (err) {
+        next(err)
+    }
+}
+
+const addLocationToFavoriteList = async (req, res, next) => {
+    const locationId = req.params.id
+    const userId = req.params.userid
+    try {
+        const user = await UserModel.findById(String(userId))
+        user.favoritesList.push(locationId)
+        await user.save()
+        Result.success(res, "added to favorite")
+    }
+    catch (err) {
         next(err)
     }
 }
@@ -120,5 +135,6 @@ export {
     updateLocation,
     filterLocation,
     newCommentAtLocation,
-    getLocationComments
+    getLocationComments,
+    addLocationToFavoriteList
 }
