@@ -8,7 +8,7 @@ tripRouter.get("/:userId/:tripId", getTripByTripId)
 tripRouter.post("/:userId", newTrip)
 tripRouter.put("/:userId/:tripId", updateTrip)
 tripRouter.post("/:userId/:tripId/locations", addLocationToTrip)
-tripRouter.delete("/:userId/:tripId/locations", removeLocationFromTrip)
+tripRouter.delete("/:userId/:tripId/locations/:locationId", removeLocationFromTrip)
 
 
 

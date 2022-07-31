@@ -62,7 +62,7 @@ const addLocationToTrip = async (req, res, next) => {
 
 const removeLocationFromTrip = async (req, res, next) => {
     const tripId = req.params.tripId
-    const locationId = req.body.location
+    const locationId = req.params.locationId
     try {
         await TripModel.findByIdAndUpdate(tripId, {
             $pull: {
