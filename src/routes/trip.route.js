@@ -1,10 +1,10 @@
 import express from "express";
-import { addLocationToTrip, getTripsByUserId, newTrip, removeLocationFromTrip, updateTrip } from "../controllers/trip.controller.js";
+import { addLocationToTrip, getTripByTripId, getTripsByUserId, newTrip, removeLocationFromTrip, updateTrip } from "../controllers/trip.controller.js";
 
 const tripRouter = new express.Router()
 
-// cityRouter.get("/", )
 tripRouter.get("/:userId", getTripsByUserId)
+tripRouter.get("/:userId/:tripId", getTripByTripId)
 tripRouter.post("/:userId", newTrip)
 tripRouter.put("/:userId/:tripId", updateTrip)
 tripRouter.post("/:userId/:tripId/locations", addLocationToTrip)

@@ -11,11 +11,21 @@ const getTripsByUserId = async (req, res, next) => {
     }
 }
 
+const getTripByTripId = async (req, res, next) => {
+    try {
+        const tripId = req.params.tripId
+        const trip = await TripModel.findById(String(tripId))
+        Result.success(res, "Getirildi", trip)
+    } catch (err) {
+        next(err)
+    }
+}
+
 const newTrip = async (req, res, next) => {
     const userId = req.params.userId;
     const trip = req.body
     try {
-        await new TripModel({...trip, userId: String(userId)}).save()
+        await new TripModel({ ...trip, userId: String(userId) }).save()
         Result.success(res, "Kaydedildi")
     } catch (err) {
         next(err)
@@ -89,6 +99,7 @@ const removeLocationFromTrip = async (req, res, next) => {
 
 export {
     getTripsByUserId,
+    getTripByTripId,
     newTrip,
     addLocationToTrip,
     removeLocationFromTrip,
