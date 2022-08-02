@@ -6,7 +6,8 @@ const getTripsByUserId = async (req, res, next) => {
         const userId = req.params.userId;
         const trips = await TripModel.find({ userId: userId }).populate({
             path: 'locations',
-            populate: [{path: 'city'}, {path: 'type'}]})
+            populate: [{ path: 'city' }, { path: 'type' }]
+        })
         Result.success(res, "Getirildi", trips);
     } catch (err) {
         next(err);
@@ -16,7 +17,10 @@ const getTripsByUserId = async (req, res, next) => {
 const getTripByTripId = async (req, res, next) => {
     try {
         const tripId = req.params.tripId
-        const trip = await TripModel.findById(String(tripId)).populate({locations})
+        const trip = await TripModel.findById(String(tripId)).populate({
+            path: 'locations',
+            populate: [{ path: 'city' }, { path: 'type' }]
+        })
         Result.success(res, "Getirildi", trip)
     } catch (err) {
         next(err)
