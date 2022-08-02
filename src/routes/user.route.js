@@ -18,6 +18,6 @@ const userRouter = new express.Router();
 userRouter.get("/", getUsers);
 userRouter.post("/", addUser);
 userRouter.get("/:id", getUserById);
-userRouter.route("/update").post(AuthenticationMiddleware, updateUserProfile);
+userRouter.route("/:id/update").post(AuthenticationMiddleware, updateUserProfile);
 
 export default userRouter;
