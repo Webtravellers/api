@@ -13,6 +13,7 @@ import {
 } from "../controllers/auth.controller.js";
 import { AuthenticationMiddleware } from "../middleware/authenticationMiddleware.js";
 
+
 const userRouter = new express.Router();
 
 userRouter.get("/", getUsers);
