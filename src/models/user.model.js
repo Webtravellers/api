@@ -37,15 +37,10 @@ const userSchema = new mongoose.Schema({
     },
     favoritesList: [
         {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "locations"
-            },
-            time: {
-                type: Date,
-                default: Date.now()
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "locations"
         }
+
     ],
     following: [
         {
