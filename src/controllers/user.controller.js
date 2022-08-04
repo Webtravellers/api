@@ -38,14 +38,18 @@ const getUserById = async (req, res, next) => {
 const updateUserProfile = async (req, res, next) => {
   const userId = req.params.id;
   const user = await UserModel.findById(req.user._id);
-  var fileRes = ""
+  var fileRes = "";
   if (req.files != null) {
     fileRes = await imageUpload(req.files.photo.tempFilePath);
   }
 
   const updatedData = {
-    name: req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1) || user.name.charAt(0).toUpperCase() + user.name.slice(1),
-    lastname: req.body.lastname.charAt(0).toUpperCase() + req.body.lastname.slice(1) || user.lastname.charAt(0).toUpperCase() + user.lastname.slice(1),
+    name:
+      req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1) ||
+      user.name.charAt(0).toUpperCase() + user.name.slice(1),
+    lastname:
+      req.body.lastname.charAt(0).toUpperCase() + req.body.lastname.slice(1) ||
+      user.lastname.charAt(0).toUpperCase() + user.lastname.slice(1),
     email: req.body.email || user.email,
     photo: fileRes.url || user.photo,
   };
