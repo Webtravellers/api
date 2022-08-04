@@ -74,4 +74,30 @@ const updateUserProfile = async (req, res, next) => {
   }
 };
 
-export { addUser, getUsers, getUserById, updateUserProfile };
+const handleFavoritesList = async (req, res, next) => {
+    const locationId = req.params.locationId
+    const userId = req.params.userId
+
+    try {
+        const user = await UserModel.findById(String(userId))
+        if (user.favoritesList.includes(locationId)) {
+            await user.updateOne({ $pull: { favoritesList: locationId } });
+            Result.success(res, "Favorilerden çıkartıldı")
+        }
+        else {
+            await user.updateOne({ $push: { favoritesList: locationId } })
+            Result.success(res, "Favorilere eklendi")
+        }
+
+    } catch (err) {
+        next(err)
+    }
+}
+
+export {
+    addUser,
+    getUsers,
+    getUserById,
+    handleFavoritesList,
+    updateUserProfile
+}

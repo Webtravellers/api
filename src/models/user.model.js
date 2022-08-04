@@ -37,51 +37,46 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   favoritesList: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "locations",
-      },
-      time: {
-        type: Date,
-        default: Date.now(),
-      },
-    },
+      {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "locations"
+      }
+
   ],
   following: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
-      },
-      time: {
-        type: Date,
-        default: Date.now(),
-      },
-    },
+      {
+          user: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "users"
+          },
+          time: {
+              type: Date,
+              default: Date.now()
+          }
+      }
   ],
   followers: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
-      },
-      time: {
-        type: Date,
-        default: Date.now(),
-      },
-    },
+      {
+          user: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "users"
+          },
+          time: {
+              type: Date,
+              default: Date.now()
+          }
+      }
   ],
   posts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "posts",
-    },
+      {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "posts",
+      }
   ],
   resetToken: {
-    data: String,
-    default: "",
-  },
+      data: String,
+      default: ''
+   },
   ...baseModel,
 });
 

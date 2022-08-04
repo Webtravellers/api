@@ -69,10 +69,30 @@ const getPostById = async (req, res, next) => {
 
 }
 
+const handleLikeEvent = async (req, res, next) => {
+    const postId = req.params.postId
+    const userId = req.params.userId
+    try {
+        const post = await PostModel.findById(String(postId))
+
+        if (post.likes.includes(userId)) {
+            await post.updateOne({ $pull: { likes: userId } });
+            Result.success(res, "Beğeni geri çekildi")
+        } else {
+            await post.updateOne({ $push: { likes: userId } });
+            Result.success(res, "Beğenildi")
+        }
+    } catch (err) {
+        next(err)
+    }
+
+}
+
 export {
     addPost,
     getPostsByUser,
     newCommentAtPost,
-    getPostById
+    getPostById,
+    handleLikeEvent
 }
 
