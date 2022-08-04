@@ -4,37 +4,35 @@ import baseModel from "./base.model.js";
 
 const userSchema = new mongoose.Schema({
   name: {
-    type: String,
-    require: true,
+      type: String,
+      require: true,
   },
   username: {
-    type: String,
-    require: true,
-    unique: true,
+      type: String,
+      require: true,
+      unique: true,
   },
   lastname: {
-    type: String,
-    require: true,
+      type: String,
+      require: true
   },
   email: {
-    type: String,
-    require: true,
-    unique: true,
+      type: String,
+      require: true,
+      unique: true,
   },
   password: {
-    type: String,
-    require: true,
+      type: String,
+      require: true
   },
   photo: {
-    type: String,
-    default:
-      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+      type: String,
   },
   wallpaper: {
-    type: String,
+      type: String,
   },
   bio: {
-    type: String,
+      type: String,
   },
   favoritesList: [
       {
@@ -76,9 +74,10 @@ const userSchema = new mongoose.Schema({
   resetToken: {
       data: String,
       default: ''
-   },
-  ...baseModel,
-});
+  },
+  ...baseModel
+  })
+
 
 userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
