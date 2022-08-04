@@ -1,94 +1,95 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 import baseModel from "./base.model.js";
 
-
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        require: true,
-    },
-    username: {
-        type: String,
-        require: true,
-        unique: true,
-    },
-    lastname: {
-        type: String,
-        require: true
-    },
-    email: {
-        type: String,
-        require: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        require: true
-    },
-    photo: {
-        type: String,
-    },
-    wallpaper: {
-        type: String,
-    },
-    bio: {
-        type: String,
-    },
-    favoritesList: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "locations"
-        }
+  name: {
+    type: String,
+    require: true,
+  },
+  username: {
+    type: String,
+    require: true,
+    unique: true,
+  },
+  lastname: {
+    type: String,
+    require: true,
+  },
+  email: {
+    type: String,
+    require: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    require: true,
+  },
+  photo: {
+    type: String,
+    default:
+      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+  },
+  wallpaper: {
+    type: String,
+  },
+  bio: {
+    type: String,
+  },
+  favoritesList: [
+      {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "locations"
+      }
 
-    ],
-    following: [
-        {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "users"
-            },
-            time: {
-                type: Date,
-                default: Date.now()
-            }
-        }
-    ],
-    followers: [
-        {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "users"
-            },
-            time: {
-                type: Date,
-                default: Date.now()
-            }
-        }
-    ],
-    posts: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "posts",
-        }
-    ],
-    resetToken: {
-        data: String,
-        default: ''
-    },
-    ...baseModel
-})
+  ],
+  following: [
+      {
+          user: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "users"
+          },
+          time: {
+              type: Date,
+              default: Date.now()
+          }
+      }
+  ],
+  followers: [
+      {
+          user: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "users"
+          },
+          time: {
+              type: Date,
+              default: Date.now()
+          }
+      }
+  ],
+  posts: [
+      {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "posts",
+      }
+  ],
+  resetToken: {
+      data: String,
+      default: ''
+   },
+  ...baseModel,
+});
 
 userSchema.statics.login = async function (email, password) {
-    const user = await this.findOne({ email })
-    if (!user) throw Error("Hatalı eposta adresi")
+  const user = await this.findOne({ email });
+  if (!user) throw Error("Hatalı eposta adresi");
 
-    const auth = await bcrypt.compare(password, user.password)
-    if (!auth) throw Error("Şifre hatalı")
+  const auth = await bcrypt.compare(password, user.password);
+  if (!auth) throw Error("Şifre hatalı");
 
-    user.password = null
-    return user
-}
+  user.password = null;
+  return user;
+};
 
 // userSchema.pre("save", async function (next) {
 //     const salt = await bcrypt.genSalt(10, "a")
@@ -96,6 +97,6 @@ userSchema.statics.login = async function (email, password) {
 //     next()
 // })
 
-const UserModel = mongoose.model("users", userSchema)
+const UserModel = mongoose.model("users", userSchema);
 
-export default UserModel
+export default UserModel;
