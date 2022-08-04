@@ -77,7 +77,6 @@ const updateUserProfile = async (req, res, next) => {
 const handleFavoritesList = async (req, res, next) => {
     const locationId = req.params.locationId
     const userId = req.params.userId
-
     try {
         const user = await UserModel.findById(String(userId))
         if (user.favoritesList.includes(locationId)) {
@@ -95,9 +94,9 @@ const handleFavoritesList = async (req, res, next) => {
 }
 
 export {
-    addUser,
-    getUsers,
-    getUserById,
-    handleFavoritesList,
-    updateUserProfile
-}
+  addUser,
+  getUsers,
+  getUserById,
+  handleFavoritesList,
+  updateUserProfile,
+};

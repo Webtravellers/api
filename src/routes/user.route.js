@@ -4,7 +4,7 @@ import {
   getUserById,
   getUsers,
   updateUserProfile,
-  handleFavoritesList
+  handleFavoritesList,
 } from "../controllers/user.controller.js";
 import {
   signIn,
@@ -19,7 +19,10 @@ const userRouter = new express.Router();
 userRouter.get("/", getUsers);
 userRouter.post("/", addUser);
 userRouter.get("/:id", getUserById);
+userRouter
+  .route("/:id/update")
+  .post(AuthenticationMiddleware, updateUserProfile);
 userRouter.post('/:userId/:locationId', handleFavoritesList)
-userRouter.route("/:id/update").post(AuthenticationMiddleware, updateUserProfile);
+
 
 export default userRouter;
