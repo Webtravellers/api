@@ -2,16 +2,8 @@ import express from "express";
 import {
   addUser,
   getUserById,
-  getUsers,
-  updateUserProfile,
-  handleFavoritesList,
+  getUsers, handleFavoritesList, handleFollowAction, updateUserProfile
 } from "../controllers/user.controller.js";
-import {
-  signIn,
-  signUp,
-  sendResetLink,
-  resetPassword,
-} from "../controllers/auth.controller.js";
 import { AuthenticationMiddleware } from "../middleware/authenticationMiddleware.js";
 
 const userRouter = new express.Router();
@@ -22,7 +14,8 @@ userRouter.get("/:id", getUserById);
 userRouter
   .route("/:id/update")
   .post(AuthenticationMiddleware, updateUserProfile);
-userRouter.post('/:userId/:locationId', handleFavoritesList)
+userRouter.post("/:id/follows/", handleFollowAction)
+userRouter.post('/:id/favorites/:locationId', handleFavoritesList)
 
 
 export default userRouter;

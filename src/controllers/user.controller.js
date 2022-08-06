@@ -75,22 +75,42 @@ const updateUserProfile = async (req, res, next) => {
 };
 
 const handleFavoritesList = async (req, res, next) => {
-    const locationId = req.params.locationId
-    const userId = req.params.userId
-    try {
-        const user = await UserModel.findById(String(userId))
-        if (user.favoritesList.includes(locationId)) {
-            await user.updateOne({ $pull: { favoritesList: locationId } });
-            Result.success(res, "Favorilerden çıkartıldı")
-        }
-        else {
-            await user.updateOne({ $push: { favoritesList: locationId } })
-            Result.success(res, "Favorilere eklendi")
-        }
-
-    } catch (err) {
-        next(err)
+  const locationId = req.params.locationId
+  const userId = req.params.id
+  try {
+    const user = await UserModel.findById(String(userId))
+    if (user.favoritesList.includes(locationId)) {
+      await user.updateOne({ $pull: { favoritesList: locationId } });
+      Result.success(res, "Favorilerden çıkartıldı")
     }
+    else {
+      await user.updateOne({ $push: { favoritesList: locationId } })
+      Result.success(res, "Favorilere eklendi")
+    }
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+const handleFollowAction = async (req, res, next) => {
+  try {
+    const loggedInUser = await UserModel.findById(req.params.id)
+    const userToFollow = await UserModel.findById(req.body.userToFollow)
+
+    if (loggedInUser.following.includes(userToFollow._id)) {
+      await userToFollow.updateOne({ $pull: { followers: loggedInUser._id } })
+      await loggedInUser.updateOne({ $pull: { following: userToFollow._id } })
+      Result.success(res, "Unfollowed", null)
+    }
+    else {
+      await userToFollow.updateOne({ $push: { followers: loggedInUser._id } })
+      await loggedInUser.updateOne({ $push: { following: userToFollow._id } })
+      Result.success(res, "Followed", null)
+    }
+  } catch (error) {
+    next(error)
+  }
 }
 
 export {
@@ -99,4 +119,5 @@ export {
   getUserById,
   handleFavoritesList,
   updateUserProfile,
+  handleFollowAction
 };
