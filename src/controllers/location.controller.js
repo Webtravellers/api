@@ -156,6 +156,25 @@ const addLocationToFavoriteList = async (req, res, next) => {
   }
 };
 
+const handleRatingEvent = async (req, res, next) => {
+  const locationId = req.params.id
+  const userId = req.params.userId
+  try {
+    const location = await LocationModel.findById(String(locationId))
+
+    if (location.ratings.includes(userId)) {
+      await location.updateOne({ $pull: { ratings: userId } });
+      Result.success(res, "Beğeni geri çekildi")
+    } else {
+      await location.updateOne({ $push: { ratings: userId } });
+      Result.success(res, "Beğenildi")
+    }
+  } catch (err) {
+    next(err)
+  }
+
+}
+
 export {
   addLocation,
   getLocations,
@@ -166,4 +185,5 @@ export {
   newCommentAtLocation,
   getLocationComments,
   addLocationToFavoriteList,
+  handleRatingEvent
 };
