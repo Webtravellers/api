@@ -89,11 +89,28 @@ const handleLikeEvent = async (req, res, next) => {
 
 }
 
+const getAllPosts = async (req, res, next) => {
+  const skip = req.query.skip ? Number(req.query.skip) : 0;
+
+  const DEFAULT_LIMIT = 10;
+
+  try {
+    const posts = await PostModel.find({}).skip(skip).limit(DEFAULT_LIMIT);
+
+    Result.success(res, "Success getting posts", posts)
+  } catch (error) {
+    Result.error(res, "Error getting posts", error.message)
+  }
+
+
+}
+
 export {
   addPost,
   getPostsByUser,
   newCommentAtPost,
   getPostById,
-  handleLikeEvent
+  handleLikeEvent,
+  getAllPosts
 }
 
