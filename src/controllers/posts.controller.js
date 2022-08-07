@@ -111,9 +111,9 @@ const getAllPosts = async (req, res, next) => {
   const DEFAULT_LIMIT = 10;
 
   try {
-    const posts = await PostModel.find({}).skip(skip).limit(DEFAULT_LIMIT);
-
-    Result.success(res, "Success getting posts", posts)
+    const posts = await PostModel.find({}).sort("-date").skip(skip).limit(DEFAULT_LIMIT).populate("postedBy");
+    const t = await PostModel.countDocuments()
+    res.json({ data: posts, total: t, message: "Success getting posts", success: true});
   } catch (error) {
     Result.error(res, "Error getting posts", error.message)
   }
