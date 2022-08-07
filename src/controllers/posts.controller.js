@@ -28,7 +28,7 @@ const addPost = async (req, res, next) => {
 const getPostsByUser = async (req, res, next) => {
   const userId = req.params.id;
   try {
-    const postsOfuser = await PostModel.find({ postedBy: String(userId) });
+    const postsOfuser = await PostModel.find({ postedBy: String(userId) }).populate("postedBy");
     // res.json(postsOfuser)
     Result.success(
       res,
