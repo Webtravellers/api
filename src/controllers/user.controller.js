@@ -77,17 +77,18 @@ const updateUserProfile = async (req, res, next) => {
 const handleFavoritesList = async (req, res, next) => {
   const locationId = req.params.locationId
   const userId = req.params.id
+  let msg = "Favorilere eklendi";
   try {
     const user = await UserModel.findById(String(userId))
     if (user.favoritesList.includes(locationId)) {
       await user.updateOne({ $pull: { favoritesList: locationId } });
-      Result.success(res, "Favorilerden çıkartıldı")
+      msg = "Favorilerden çıkarıldı";
     }
     else {
       await user.updateOne({ $push: { favoritesList: locationId } })
-      Result.success(res, "Favorilere eklendi")
     }
-
+    const updatedUser = await UserModel.findById(String(userId)).populate("favoritesList")
+    Result.success(res, msg, updatedUser)
   } catch (err) {
     next(err)
   }
