@@ -58,6 +58,21 @@ const newCommentAtPost = async (req, res, next) => {
   }
 };
 
+const getPostComments = async (req, res, next) => {
+  const postId = req.params.id;
+  try {
+    const post = await PostModel.findById(String(postId)).populate(
+      "comments.user"
+    );
+    if (!post) {
+      Result.error(res, "post.notFound");
+    } else {
+      Result.success(res, "comment.get", post.comments);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
 const getPostById = async (req, res, next) => {
   const postId = req.params.id
@@ -75,14 +90,15 @@ const handleLikeEvent = async (req, res, next) => {
   const userId = req.params.userId
   try {
     const post = await PostModel.findById(String(postId))
-
-    if (post.likes.includes(userId)) {
+    let msg = "Beğenildi";
+    if (post.likes?.includes(userId)) {
       await post.updateOne({ $pull: { likes: userId } });
-      Result.success(res, "Beğeni geri çekildi")
+      msg = "Beğeni geri çekildi"
     } else {
       await post.updateOne({ $push: { likes: userId } });
-      Result.success(res, "Beğenildi")
     }
+    const updatedPost = await PostModel.findById(String(post._id)).populate("postedBy");
+    Result.success(res, msg, updatedPost)
   } catch (err) {
     next(err)
   }
@@ -111,6 +127,7 @@ export {
   newCommentAtPost,
   getPostById,
   handleLikeEvent,
-  getAllPosts
+  getAllPosts,
+  getPostComments
 }
 
