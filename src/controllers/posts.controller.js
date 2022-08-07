@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import PostModel from "../models/post.model.js";
 import UserModel from "../models/user.model.js";
 import { imageUpload } from "../utils/imageUploader.js";
@@ -59,40 +60,40 @@ const newCommentAtPost = async (req, res, next) => {
 
 
 const getPostById = async (req, res, next) => {
-    const postId = req.params.postID
-    try {
-        const post = await PostModel.findById(String(postId))
-        Result.success(res, `Post wiht id ${postId}`, post)
-    } catch (error) {
-        Result.error(res, `No post by given id ${postId}`, 404)
-    }
+  const postId = req.params.id
+  try {
+    const post = await PostModel.findById(String(postId))
+    Result.success(res, `Post wiht id ${postId}`, post)
+  } catch (error) {
+    Result.error(res, `No post by given id ${postId}`, 404)
+  }
 
 }
 
 const handleLikeEvent = async (req, res, next) => {
-    const postId = req.params.postId
-    const userId = req.params.userId
-    try {
-        const post = await PostModel.findById(String(postId))
+  const postId = req.params.id
+  const userId = req.params.userId
+  try {
+    const post = await PostModel.findById(String(postId))
 
-        if (post.likes.includes(userId)) {
-            await post.updateOne({ $pull: { likes: userId } });
-            Result.success(res, "Beğeni geri çekildi")
-        } else {
-            await post.updateOne({ $push: { likes: userId } });
-            Result.success(res, "Beğenildi")
-        }
-    } catch (err) {
-        next(err)
+    if (post.likes.includes(userId)) {
+      await post.updateOne({ $pull: { likes: userId } });
+      Result.success(res, "Beğeni geri çekildi")
+    } else {
+      await post.updateOne({ $push: { likes: userId } });
+      Result.success(res, "Beğenildi")
     }
+  } catch (err) {
+    next(err)
+  }
 
 }
 
 export {
-    addPost,
-    getPostsByUser,
-    newCommentAtPost,
-    getPostById,
-    handleLikeEvent
+  addPost,
+  getPostsByUser,
+  newCommentAtPost,
+  getPostById,
+  handleLikeEvent
 }
 
