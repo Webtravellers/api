@@ -48,6 +48,9 @@ const signUp = async (req, res, next) => {
         if (MongoError.unique(err, "email")) {
           errMsg = "Eposta adresi zaten kullanımda";
         }
+        if (MongoError.unique(err, "username")) {
+          errMsg = "Kullanıcı adı zaten kullanımda";
+        }
         Result.error(res, errMsg);
       });
   } catch (err) {
