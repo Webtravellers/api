@@ -28,7 +28,7 @@ const getUsers = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
   const userId = req.params.id;
   try {
-    const user = await UserModel.findById(String(userId));
+    const user = await UserModel.findById(String(userId)).populate('favoritesList')
     Result.success(res, `User with the ID ${userId}`, user);
   } catch (error) {
     next(error);
