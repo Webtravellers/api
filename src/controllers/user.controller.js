@@ -37,7 +37,7 @@ const getUserById = async (req, res, next) => {
 
 const updateUserProfile = async (req, res, next) => {
   const userId = req.params.id;
-  const user = await UserModel.findById(req.user._id);
+  const user = await UserModel.findById(userId);
   var fileRes = "";
   if (req.files != null) {
     fileRes = await imageUpload(req.files.photo.tempFilePath);

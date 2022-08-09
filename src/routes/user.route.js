@@ -13,7 +13,7 @@ userRouter.post("/", addUser);
 userRouter.get("/:id", getUserById);
 userRouter
   .route("/:id/update")
-  .post(AuthenticationMiddleware, updateUserProfile);
+  .post(updateUserProfile);
 userRouter.post("/:id/follows/", handleFollowAction)
 userRouter.post('/:id/favorites/:locationId', handleFavoritesList)
 
