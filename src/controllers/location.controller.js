@@ -65,6 +65,12 @@ const getLocations = async (req, res, next) => {
   }
 };
 
+const getDiscoverLocations = async (req, res, next) => {
+  const locs = await LocationModel.find().populate("city type")
+  Result.success(res, "Lokasyonlar listelendi", locs)
+}
+
+
 const getLocationById = async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -159,6 +165,7 @@ const addLocationToFavoriteList = async (req, res, next) => {
 export {
   addLocation,
   getLocations,
+  getDiscoverLocations,
   getLocationById,
   deleteLocation,
   updateLocation,

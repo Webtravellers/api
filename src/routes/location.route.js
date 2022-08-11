@@ -1,12 +1,14 @@
 import express from "express";
-import { addLocation, getLocations, getLocationById, deleteLocation, updateLocation, filterLocation, newCommentAtLocation, getLocationComments, addLocationToFavoriteList } from "../controllers/location.controller.js";
+import { addLocation, getLocations, getLocationById, deleteLocation, updateLocation, filterLocation, newCommentAtLocation, getLocationComments, addLocationToFavoriteList, getDiscoverLocations } from "../controllers/location.controller.js";
 
 const locationRouter = new express.Router()
+
 
 locationRouter.get("/", getLocations)
 locationRouter.post("/", addLocation)
 locationRouter.post("/filter", filterLocation)
 
+locationRouter.get("/food", getDiscoverLocations)
 
 locationRouter.get("/:id", getLocationById)
 locationRouter.delete("/:id", deleteLocation)
