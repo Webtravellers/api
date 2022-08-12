@@ -28,7 +28,9 @@ const getUsers = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
   const userId = req.params.id;
   try {
-    const user = await UserModel.findById(String(userId)).populate('favoritesList')
+    const user = await UserModel.findById(String(userId)).populate(
+      "favoritesList"
+    );
     Result.success(res, `User with the ID ${userId}`, user);
   } catch (error) {
     next(error);
@@ -54,19 +56,25 @@ const updateUserProfile = async (req, res, next) => {
     photo: fileRes.url || user.photo,
   };
   try {
-    MongoClient.connect(localUrl, function (err, db) {
-      var dbo = db.db("WebTravellers");
-      dbo
-        .collection("users")
-        .updateOne(
-          { _id: ObjectId(userId) },
-          { $set: updatedData },
-          function (err, res) {
-            console.log("Document updated");
-            db.close();
-          }
-        );
-    });
+    UserModel.updateOne(
+      { _id: userId },
+      { ...updatedData },
+      { upsert: true },
+      (err) => {}
+    );
+    // MongoClient.connect(localUrl, function (err, db) {
+    //   var dbo = db.db("WebTravellers");
+    //   dbo
+    //     .collection("users")
+    //     .updateOne(
+    //       { _id: ObjectId(userId) },
+    //       { $set: updatedData },
+    //       function (err, res) {
+    //         console.log("Document updated");
+    //         db.close();
+    //       }
+    //     );
+    // });
     Result.success(res, "save");
   } catch (err) {
     console.log(err);
@@ -75,44 +83,44 @@ const updateUserProfile = async (req, res, next) => {
 };
 
 const handleFavoritesList = async (req, res, next) => {
-  const locationId = req.params.locationId
-  const userId = req.params.id
+  const locationId = req.params.locationId;
+  const userId = req.params.id;
   let msg = "Favorilere eklendi";
   try {
-    const user = await UserModel.findById(String(userId))
+    const user = await UserModel.findById(String(userId));
     if (user.favoritesList.includes(locationId)) {
       await user.updateOne({ $pull: { favoritesList: locationId } });
       msg = "Favorilerden çıkarıldı";
+    } else {
+      await user.updateOne({ $push: { favoritesList: locationId } });
     }
-    else {
-      await user.updateOne({ $push: { favoritesList: locationId } })
-    }
-    const updatedUser = await UserModel.findById(String(userId)).populate("favoritesList")
-    Result.success(res, msg, updatedUser)
+    const updatedUser = await UserModel.findById(String(userId)).populate(
+      "favoritesList"
+    );
+    Result.success(res, msg, updatedUser);
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
 const handleFollowAction = async (req, res, next) => {
   try {
-    const loggedInUser = await UserModel.findById(req.params.id)
-    const userToFollow = await UserModel.findById(req.body.userToFollow)
+    const loggedInUser = await UserModel.findById(req.params.id);
+    const userToFollow = await UserModel.findById(req.body.userToFollow);
 
     if (loggedInUser.following.includes(userToFollow._id)) {
-      await userToFollow.updateOne({ $pull: { followers: loggedInUser._id } })
-      await loggedInUser.updateOne({ $pull: { following: userToFollow._id } })
-      Result.success(res, "Unfollowed", null)
-    }
-    else {
-      await userToFollow.updateOne({ $push: { followers: loggedInUser._id } })
-      await loggedInUser.updateOne({ $push: { following: userToFollow._id } })
-      Result.success(res, "Followed", null)
+      await userToFollow.updateOne({ $pull: { followers: loggedInUser._id } });
+      await loggedInUser.updateOne({ $pull: { following: userToFollow._id } });
+      Result.success(res, "Unfollowed", null);
+    } else {
+      await userToFollow.updateOne({ $push: { followers: loggedInUser._id } });
+      await loggedInUser.updateOne({ $push: { following: userToFollow._id } });
+      Result.success(res, "Followed", null);
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 export {
   addUser,
@@ -120,5 +128,5 @@ export {
   getUserById,
   handleFavoritesList,
   updateUserProfile,
-  handleFollowAction
+  handleFollowAction,
 };
